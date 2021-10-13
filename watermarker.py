@@ -47,7 +47,7 @@ def forward_energy(im):
 #find the darkest spot in the image
 def findDark(im):
     imBlur = cv2.GaussianBlur(im,(109,109),cv2.BORDER_DEFAULT)
-    cv2.imwrite("blur.jpg", imBlur)
+    cv2.imwrite("Blurred.jpg", imBlur)
     (minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(imBlur)
 
     return minLoc
@@ -113,7 +113,7 @@ def main():
     assert im is not None
 
     energy = forward_energy(im)
-    cv2.imwrite("energy.jpg", energy)
+    cv2.imwrite("Features.jpg", energy)
 
     zone = findDark(energy)
     im_x, im_y = energy.shape
@@ -126,8 +126,7 @@ def main():
 
     finalImage = addWatermark(zone, im, args.watermark_name)
 
-    cv2.imwrite("Troll.jpg", finalImage)
-    cv2.imwrite("Circle.jpg", im)
+    cv2.imwrite("Output.jpg", finalImage)
 
 if __name__ == '__main__':
     sys.exit(main())
