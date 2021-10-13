@@ -46,7 +46,7 @@ def forward_energy(im):
 
 #find the darkest spot in the image
 def findDark(im):
-    imBlur = cv2.GaussianBlur(im,(109,109),cv2.BORDER_DEFAULT)
+    imBlur = cv2.blur(im,(99,99),cv2.BORDER_DEFAULT)
     cv2.imwrite("Blurred.jpg", imBlur)
     (minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(imBlur)
 
@@ -79,14 +79,23 @@ def addWatermark(imageCoords, backgroundImg, watermark_name):
     #bottom right position of overlay
     bottom_right_y, bottom_right_x = tuple(map(operator.add, imageCoords, (watermark.shape[0], watermark.shape[1])))
 
-
     #check if watermark is out of bounds
-    if top_left_y < 0:
-        bottom_right_y = bottom_right_y - top_left_y
-        top_left_y = 0
+    while top_left_y < 0 or top_left_x < 0 or bottom_right_x > backgroundImg.shape[1] or bottom_right_y > backgroundImg.shape[0] :
+        if top_left_y < 0:
+            bottom_right_y = bottom_right_y - top_left_y
+            top_left_y = 0
 
-    if top_left_x < 0:
-        bottom_right_x = bottom_right_x - top_left_x
+        if top_left_x < 0:
+            bottom_right_x = bottom_right_x - top_left_x
+            top_left_x = 0
+
+        if bottom_right_x > backgroundImg.shape[1]:
+            top_left_x = - bottom_right_x + backgroundImg.shape[1] + top_left_x
+            bottom_right_x = backgroundImg.shape[1]
+
+        if bottom_right_y > backgroundImg.shape[0]:
+            top_left_y = - bottom_right_y + backgroundImg.shape[0] + top_left_y
+            bottom_right_y = backgroundImg.shape[0]
 
     #calculating alpha channel value
 
