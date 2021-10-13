@@ -116,13 +116,6 @@ def main():
     cv2.imwrite("Features.jpg", energy)
 
     zone = findDark(energy)
-    im_x, im_y = energy.shape
-
-    radius = int(im_x/20)
-    zone_x, zone_y = zone
-
-    if zone_x < radius or zone_y < radius:
-        zone = tuple(map(operator.add, zone, (int(radius), int(radius))))
 
     finalImage = addWatermark(zone, im, args.watermark_name)
 
