@@ -1,6 +1,6 @@
 # automatic-watermarker
 Usage:
->watermarker.py Image Watermark
+>python3 watermarker.py Image Watermark
 
 For example
->watermarker.py Meme.jpg Trollface.png
+>python3 watermarker.py Meme.jpg Trollface.png
